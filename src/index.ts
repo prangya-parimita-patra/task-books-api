@@ -14,6 +14,11 @@ app.use(bodyParser.json());
 // Use the booksRouter for routes under '/api/books' path
 app.use('/api/books', booksRouter);
 
+// Define a default route for the server
+app.get('/', (req, res) => {
+  res.send('Task Books Server Running!');
+});
+
 // Initialize the database connection
 dbCon();
 
