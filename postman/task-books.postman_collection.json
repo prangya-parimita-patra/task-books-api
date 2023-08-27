@@ -1,0 +1,675 @@
+{
+	"info": {
+		"_postman_id": "c9ab5698-a315-4c6d-979c-0bc9b3dfbd4a",
+		"name": "task-books",
+		"description": "Local URL - [http://localhost:3000](http://localhost:3000)\n\nProd URL - https://task-books-e6vp3iquhq-uc.a.run.app  \n\nCollection of all the 5 APIs along woth test scripts of postman\n\n1\\. GET /api/books: Retrieve a list of all books.  \n2\\. GET /api/books/:id: Retrieve a specific book by its ID.  \n3\\. POST /api/books: Add a new book to the collection.  \n4\\. PUT /api/books/:id: Update an existing book by its ID.  \n5\\. DELETE /api/books/:id: Delete a book from the collection by its ID.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11228886"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"  const responseData = pm.response.json();",
+							"",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.id).to.exist;",
+							"  pm.expect(responseData.title).to.exist;",
+							"  pm.expect(responseData.author).to.exist;",
+							"  pm.expect(responseData.published_year).to.exist;",
+							"  pm.expect(responseData.updatedAt).to.exist;",
+							"  pm.expect(responseData.createdAt).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"id is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.id).to.exist.and.to.be.a('number');",
+							"  pm.expect(responseData.id).to.be.at.least(0);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Published year is a valid year\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.published_year).to.be.a('number');",
+							"  pm.expect(responseData.published_year).to.satisfy(function (year) {",
+							"    const currentYear = new Date().getFullYear();",
+							"    return year > 0 && year <= currentYear;",
+							"  }, \"Published year should be a valid year\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"hdad45\",\r\n    \"publishedYear\": 2023,\r\n    \"author\": \"roja\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{task-book-url}}/api/books",
+					"host": [
+						"{{task-book-url}}"
+					],
+					"path": [
+						"api",
+						"books"
+					]
+				},
+				"description": "Add a new book to the collection."
+			},
+			"response": [
+				{
+					"name": "Create",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"hdad45\",\r\n    \"publishedYear\": 2023,\r\n    \"author\": \"roja\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://task-books-e6vp3iquhq-uc.a.run.app/api/books",
+							"protocol": "https",
+							"host": [
+								"task-books-e6vp3iquhq-uc",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"8e-FatxzoGcYvJSp01QUqEld4a4NTo\""
+						},
+						{
+							"key": "X-Cloud-Trace-Context",
+							"value": "f49906c01ed35c7a5faf38b2693a5cc2;o=1"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 27 Aug 2023 13:10:19 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Google Frontend"
+						},
+						{
+							"key": "Content-Length",
+							"value": "142"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 16,\n    \"title\": \"hdad45\",\n    \"author\": \"roja\",\n    \"published_year\": 2023,\n    \"updatedAt\": \"2023-08-27T13:10:19.255Z\",\n    \"createdAt\": \"2023-08-27T13:10:19.255Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"  pm.expect(pm.response.json()).to.be.an('array');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Each object in the array has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"",
+							"    pm.expect(responseData).to.be.an('array');",
+							"",
+							"    responseData.forEach(function(book) {",
+							"        pm.expect(book).to.have.property('id');",
+							"        pm.expect(book).to.have.property('title');",
+							"        pm.expect(book).to.have.property('author');",
+							"        pm.expect(book).to.have.property('published_year');",
+							"        pm.expect(book).to.have.property('createdAt');",
+							"        pm.expect(book).to.have.property('updatedAt');",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"id is a non-negative integer\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    responseData.forEach(function(book) {",
+							"        pm.expect(book.id).to.be.a('number');",
+							"        pm.expect(book.id).to.be.at.least(0);",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"published_year is a positive integer\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    ",
+							"    responseData.forEach(function(book) {",
+							"        pm.expect(book.published_year).to.be.a('number').and.to.be.greaterThan(0);",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{task-book-url}}/api/books",
+					"host": [
+						"{{task-book-url}}"
+					],
+					"path": [
+						"api",
+						"books"
+					]
+				},
+				"description": "Retrieve a list of all books."
+			},
+			"response": [
+				{
+					"name": "List",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{task-book-url}}/api/books",
+							"host": [
+								"{{task-book-url}}"
+							],
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"258-Cke2LzsOgbyHwJ4dwk+ZLBlbWx8\""
+						},
+						{
+							"key": "X-Cloud-Trace-Context",
+							"value": "d6fdaeb2e59e0be1565299653ec52132;o=1"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 27 Aug 2023 13:10:35 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Google Frontend"
+						},
+						{
+							"key": "Content-Length",
+							"value": "600"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 10,\n        \"title\": \"New Book\",\n        \"author\": \"Author Name\",\n        \"published_year\": 2023,\n        \"createdAt\": \"2023-08-27T12:58:24.926Z\",\n        \"updatedAt\": \"2023-08-27T12:58:24.926Z\"\n    },\n    {\n        \"id\": 11,\n        \"title\": \"New Book\",\n        \"author\": \"Author Name\",\n        \"published_year\": 2023,\n        \"createdAt\": \"2023-08-27T12:59:20.827Z\",\n        \"updatedAt\": \"2023-08-27T12:59:20.827Z\"\n    },\n    {\n        \"id\": 12,\n        \"title\": \"New Book\",\n        \"author\": \"Author Name\",\n        \"published_year\": 2023,\n        \"createdAt\": \"2023-08-27T12:59:30.023Z\",\n        \"updatedAt\": \"2023-08-27T12:59:30.023Z\"\n    },\n    {\n        \"id\": 16,\n        \"title\": \"hdad45\",\n        \"author\": \"roja\",\n        \"published_year\": 2023,\n        \"createdAt\": \"2023-08-27T13:10:19.255Z\",\n        \"updatedAt\": \"2023-08-27T13:10:19.255Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Read",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.id).to.exist;",
+							"    pm.expect(responseData.title).to.exist;",
+							"    pm.expect(responseData.author).to.exist;",
+							"    pm.expect(responseData.published_year).to.exist;",
+							"    pm.expect(responseData.createdAt).to.exist;",
+							"    pm.expect(responseData.updatedAt).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"id is a non-negative integer\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.id).to.exist.and.to.be.a('number');",
+							"    pm.expect(responseData.id).to.be.at.least(0);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Title is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.title).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Title should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Author is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.author).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Author should not be empty\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{task-book-url}}/api/books/:id",
+					"host": [
+						"{{task-book-url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "16"
+						}
+					]
+				},
+				"description": "Retrieve a specific book by its ID."
+			},
+			"response": [
+				{
+					"name": "Read",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{task-book-url}}/api/books/:id",
+							"host": [
+								"{{task-book-url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "16"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"8e-G28Sy1+TbZr0KvhX+pRCIUDNC/g\""
+						},
+						{
+							"key": "X-Cloud-Trace-Context",
+							"value": "8d6098a8efbca811084b525e9bfc30f7;o=1"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 27 Aug 2023 13:11:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Google Frontend"
+						},
+						{
+							"key": "Content-Length",
+							"value": "142"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 16,\n    \"title\": \"hdad45\",\n    \"author\": \"roja\",\n    \"published_year\": 2023,\n    \"createdAt\": \"2023-08-27T13:10:19.255Z\",\n    \"updatedAt\": \"2023-08-27T13:10:19.255Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.id).to.exist;",
+							"    pm.expect(responseData.title).to.exist;",
+							"    pm.expect(responseData.author).to.exist;",
+							"    pm.expect(responseData.published_year).to.exist;",
+							"    pm.expect(responseData.createdAt).to.exist;",
+							"    pm.expect(responseData.updatedAt).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"id is a non-zero positive integer\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.id).to.be.a('number');",
+							"    pm.expect(responseData.id).to.be.above(0);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Title is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.title).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Title should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Author is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.author).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Author should not be empty\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"hdadjes\",\r\n    \"publishedYear\": 2022,\r\n    \"author\": \"roja\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{task-book-url}}/api/books/:id",
+					"host": [
+						"{{task-book-url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "16"
+						}
+					]
+				},
+				"description": "Update an existing book by its ID."
+			},
+			"response": [
+				{
+					"name": "Update",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"hdadjes\",\r\n    \"publishedYear\": 2022,\r\n    \"author\": \"roja\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{task-book-url}}/api/books/:id",
+							"host": [
+								"{{task-book-url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "16"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"8f-VX5XqeHLHTrt/qKGPWX78Zk+zFU\""
+						},
+						{
+							"key": "X-Cloud-Trace-Context",
+							"value": "e1ddda5c6f64a90a2b9f74465db9ef02;o=1"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 27 Aug 2023 13:11:39 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Google Frontend"
+						},
+						{
+							"key": "Content-Length",
+							"value": "143"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 16,\n    \"title\": \"hdadjes\",\n    \"author\": \"roja\",\n    \"published_year\": 2022,\n    \"createdAt\": \"2023-08-27T13:10:19.255Z\",\n    \"updatedAt\": \"2023-08-27T13:11:39.059Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{task-book-url}}/api/books/:id",
+					"host": [
+						"{{task-book-url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "11"
+						}
+					]
+				},
+				"description": "Delete a book from the collection by its ID."
+			},
+			"response": [
+				{
+					"name": "Delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{task-book-url}}/api/books/:id",
+							"host": [
+								"{{task-book-url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"27-2sU+wH8LsO2HgYqDa0daGODIV30\""
+						},
+						{
+							"key": "X-Cloud-Trace-Context",
+							"value": "1fc085306d1a9a91c4e29a2295a36c26;o=1"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 27 Aug 2023 13:12:06 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Google Frontend"
+						},
+						{
+							"key": "Content-Length",
+							"value": "39"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Book deleted successfully\"\n}"
+				}
+			]
+		}
+	]
+}
